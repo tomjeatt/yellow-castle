@@ -9,17 +9,24 @@ const ws = io(server);
 
 app.use(index);
 
+let interval: NodeJS.Timeout;
+
 ws.on('connection', (socket) => {
-  console.log('a user connected');
-  getApiAndEmit(socket);
+  if (interval) {
+    clearInterval(interval);
+  }
+
+  interval = setInterval(() => getApiAndEmit(socket), 1000);
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log('Client disconnected');
+    clearInterval(interval);
   });
 });
 
 const getApiAndEmit = (socket: Socket) => {
-  socket.emit('FromAPI', 'API response');
+  const response = new Date();
+  socket.emit('FromAPI', response);
 };
 
 server.listen(4001, () => {
