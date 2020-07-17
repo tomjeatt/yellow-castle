@@ -11,6 +11,7 @@ app.use(index);
 
 ws.on('connection', (socket) => {
   console.log('a user connected');
+  getApiAndEmit(socket);
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -18,11 +19,9 @@ ws.on('connection', (socket) => {
 });
 
 const getApiAndEmit = (socket: Socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit('FromAPI', response);
+  socket.emit('FromAPI', 'API response');
 };
 
-server.listen(4000, () => {
-  console.log('listening on http://localhost:4000');
+server.listen(4001, () => {
+  console.log('listening on http://localhost:4001');
 });
