@@ -8,9 +8,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
+
     socket.on('FromAPI', (data: string) => {
       setResponse(data);
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return <p>{response}</p>;
