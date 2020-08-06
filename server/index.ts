@@ -1,16 +1,17 @@
 import express from 'express';
 import http from 'http';
 import io, { Socket } from 'socket.io';
-import index from '../routes';
 import createLogger from '@ovotech/orex-logger';
 import { fromEnv } from '@ovotech/orex-castle';
 import { CastleEachBatchPayload } from '@ovotech/castle';
-
+import index from '../routes';
 
 // SETUP CASTLE
-const consumeBatch: (ctx: CastleEachBatchPayload<any, any>) => Promise<void> = async (ctx: CastleEachBatchPayload<any, any>) => {
-    console.log(`\n\n***\n${JSON.stringify(ctx)}***\n`);
-}
+const consumeBatch: (
+  ctx: CastleEachBatchPayload<any, any>,
+) => Promise<void> = async (ctx: CastleEachBatchPayload<any, any>) => {
+  console.log(`\n\n***\n${JSON.stringify(ctx)}***\n`);
+};
 
 const logger = createLogger({ format: 'json' });
 const castle = fromEnv.castle({
