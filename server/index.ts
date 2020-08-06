@@ -38,6 +38,11 @@ app.use(index);
 
 let interval: NodeJS.Timeout;
 
+const getApiAndEmit = (socket: Socket) => {
+  const response = new Date();
+  socket.emit('FromAPI', response);
+};
+
 ws.on('connection', (socket) => {
   if (interval) {
     clearInterval(interval);
@@ -50,11 +55,6 @@ ws.on('connection', (socket) => {
     clearInterval(interval);
   });
 });
-
-const getApiAndEmit = (socket: Socket) => {
-  const response = new Date();
-  socket.emit('FromAPI', response);
-};
 
 server.listen(4001, () => {
   console.log('listening on http://localhost:4001');
