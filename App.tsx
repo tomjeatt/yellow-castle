@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CastleEachBatchPayload } from '@ovotech/castle';
 import socketIOClient from 'socket.io-client';
 
 const ENDPOINT = 'http://localhost:4001';
@@ -9,8 +10,9 @@ const App: React.FC = () => {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
 
-    socket.on('FromAPI', (data: string) => {
-      setResponse(data);
+    socket.on('BatchReceived', (data: CastleEachBatchPayload<any, any>) => {
+      console.log(data);
+      setResponse(JSON.stringify(data));
     });
 
     return () => {
