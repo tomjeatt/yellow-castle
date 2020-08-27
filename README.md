@@ -73,7 +73,7 @@ Once your PR has been approved and merged your user will be able to consume the 
 
 Note: if you run into issues with using `local.project` and `local.service_name` as the values for `project` and `service_name` you can use `ovo-uat` and `kafka-uat` instead.
 
-### Configuring the server
+### Configuring the server
 
 1. Create a directory called `ssl` in the project root and then create three files in it: `ca`, `crt` and `key` (no file extensions).
 
