@@ -10,6 +10,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
 
+    socket.emit('replay', 0);
+
     socket.on('BatchReceived', (data: CastleEachBatchPayload<any, any>) => {
       console.log(data);
       setResponse(JSON.stringify(data));

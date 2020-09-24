@@ -1,9 +1,11 @@
 import express from 'express';
 import http from 'http';
-import io, { Socket } from 'socket.io';
+import io from 'socket.io';
 import { CastleEachBatchPayload } from '@ovotech/castle';
 import index from '../routes';
 import kafkaConsumer from './kafkaConsumer';
+
+const topicStore: CastleEachBatchPayload<any, any>[] = [];
 
 // SETUP SERVER
 const app = express();
@@ -17,11 +19,13 @@ ws.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
+  socket.on('replay', (offset: number = 0) => topicStore.slice(offset).forEach((ctx) => socket.emit('BatchReceived', ctx)));
 });
 
 kafkaConsumer(
   'he-loss_updated_v2',
   async (ctx: CastleEachBatchPayload<any, any>) => {
+    topicStore.push(ctx);
     Object.keys(ws.sockets.sockets).forEach((x) => {
       console.log('Emitting to socket');
       ws.sockets.sockets[x].emit('BatchReceived', ctx);
